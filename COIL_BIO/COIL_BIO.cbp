@@ -34,6 +34,9 @@
 		<Unit filename="../tarea1_template.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="tarea2_template.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
