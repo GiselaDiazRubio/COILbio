@@ -246,11 +246,17 @@ void corregir_aceleracion(Datos registros[], int total) {
 
         Esta version no modifica nada.
     */
+    for(int i=0;i<=total;i++){
+        registros[i].linear_acceleration_z*=-1; //Multiplicar por menos
+    }
+
+
     (void)registros;
     (void)total;
 }
 
 double calcular_longitud_temporal(int total, double fs) {
+
     /*
         Tarea del estudiante:
         1. verificar que fs sea mayor que cero,
@@ -260,12 +266,24 @@ double calcular_longitud_temporal(int total, double fs) {
 
         Mientras no este implementada, devuelve 0.0.
     */
+
+    if(fs<=0){
+        return 0.0;
+    }else{
+        float tiempo=total/fs;
+        return tiempo; //Cómo puedo asegurarme de que esta en segundos?
+    }
+
     (void)total;
     (void)fs;
     return 0.0;
 }
 
+
 int buscar_indice_primera_sync(const Datos registros[], int total) {
+
+    (void)registros;
+    (void)total;
     /*
         Tarea del estudiante:
         1. recorrer el arreglo desde el inicio,
@@ -273,8 +291,14 @@ int buscar_indice_primera_sync(const Datos registros[], int total) {
         3. devolver ese indice,
         4. si no hay ninguna, devolver -1.
     */
-    (void)registros;
-    (void)total;
+
+    for(int i=0;i<=total;i++){
+        if(registros[i].sync!=0){
+            return i;
+        }
+    }
+
+
     return -1;
 }
 
@@ -286,12 +310,21 @@ int buscar_indice_ultima_sync(const Datos registros[], int total) {
         3. devolver ese indice,
         4. si no hay ninguna, devolver -1.
     */
+
+    for(int i=total-1;i<=0;i--){
+        if(registros[i].sync!=0){
+            return i;
+        }
+    }
+
+
     (void)registros;
     (void)total;
     return -1;
 }
 
 int contar_transiciones_S3_S0(const Datos registros[], int inicio, int fin) {
+    int pasos=0;
     /*
         Tarea del estudiante:
         1. verificar que inicio y fin definan una ventana valida,
@@ -299,10 +332,22 @@ int contar_transiciones_S3_S0(const Datos registros[], int inicio, int fin) {
         3. contar cuantas veces aparece la transicion 3 -> 0,
         4. devolver la cantidad de pasos detectados.
     */
+    if(inicio<=0||fin<=inicio){
+        return 0;
+    }else{
+    for(int i=inicio+1;i<fin;i++){
+        if(registros[i].segmentation_output==3&&registros[i+1].segmentation_output==0){
+           pasos++;
+        }
+    }
+
+    }
+
+
     (void)registros;
     (void)inicio;
     (void)fin;
-    return 0;
+    return pasos;
 }
 
 double calcular_velocidad_marcha(int muestras_sync, double fs) {
@@ -315,6 +360,14 @@ double calcular_velocidad_marcha(int muestras_sync, double fs) {
 
         Mientras no este implementada, devuelve 0.0.
     */
+    if(fs<=0||muestras_sync<=0){
+        return 0.0;
+    }
+
+    float tiempo=(float)muestras_sync/fs;
+
+    return DISTANCIA_UTIL_10MWT_M/tiempo;
+
     (void)muestras_sync;
     (void)fs;
     return 0.0;
@@ -331,6 +384,12 @@ double calcular_velocidad_pasos(int pasos, int muestras_pasos, double fs) {
 
         Mientras no este implementada, devuelve 0.0.
     */
+    if(fs<=0||muestras_pasos<=0||pasos<0){
+        return 0.0;
+    }
+    float tiempo = (float)muestras_pasos/fs;
+    return (float)pasos/tiempo;
+
     (void)pasos;
     (void)muestras_pasos;
     (void)fs;
@@ -347,9 +406,15 @@ double calcular_longitud_zancada(double velocidad_marcha, double velocidad_pasos
 
         Mientras no este implementada, devuelve 0.0.
     */
+    if(velocidad_pasos<0){
+        return 0.0;
+    }else{
+        int longitud = (float)velocidad_marcha/velocidad_pasos;
+        return longitud;
+    }
+
     (void)velocidad_marcha;
     (void)velocidad_pasos;
-    return 0.0;
 }
 
 void imprimir_resultados(

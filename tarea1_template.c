@@ -328,7 +328,7 @@ void imprimir_metadatos(const RegistroCSV registros[], int total){
     for(i=0;i<total;i++){
         printf("\nARCHIVO: %s\n",registros[i].nombre_fichero);
         for(j=0;j<registros[i].total_metadatos;j++){
-            printf("\n%s: %s\n",registros[i].campos[j],registros[i].valores[j])
+            printf("\n%s: %s\n",registros[i].campos[j],registros[i].valores[j]);
         }
     }
 }
